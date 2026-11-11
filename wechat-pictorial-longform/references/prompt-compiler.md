@@ -14,7 +14,10 @@ For each shot, write `prompts/panel-XX.txt` with:
 
 ## refs
 style: <paths>
-character: <paths if any>
+character: character-lead.png   # required when lock status=locked
+
+## character_anchor
+<paste character-lock.md anchor_en verbatim — identical on every panel>
 
 ## text_safe
 regions: <list from text_slots>
@@ -27,12 +30,13 @@ burn_in_strings: <only if true>
 ```text
 {shot_size} shot, {angle}, {action}, {setting},
 {style medium}, {palette keywords}, {light}, {paper},
-{lead character traits}, soft painterly edges,
-WeChat pictorial narrative panel, cinematic storytelling illustration,
+{anchor_en}, same person as character reference, consistent facial identity,
+soft painterly edges, WeChat pictorial narrative panel,
 keep {regions} as quiet empty negative space for later typography,
 no text, no letters, no watermark, no speech bubbles
 ```
 
+Never paraphrase `anchor_en` between panels.
 Map regions to prompt phrases:
 
 | region | phrase |
