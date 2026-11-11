@@ -90,6 +90,8 @@ If refs are partial, fill gaps from the bundled default rather than switching ae
 
 Read `references/character-lock.md`. Mode `character` or automatic before `full` / first `generate`.
 
+Prefer sibling skill `wechat-pictorial-character-sheet` when the user only wants a turnaround, or call that skill’s pipeline for sheet+portrait quality; then continue here with the produced lock files.
+
 1. Assign lead `cast_role` from script (assessor / judge / mediator / etc.). Read `references/role-wardrobe.md` and set `wardrobe` to match that role.
 2. Write `character-lock.md` with immutable `traits`, `cast_role`, `wardrobe`, `anchor_zh`, `anchor_en` (anchors must mention the correct outfit).
 3. Generate character sheet then `character-lead.png` in the style-card look **wearing that wardrobe**.
