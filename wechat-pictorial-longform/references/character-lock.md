@@ -13,22 +13,23 @@ character-lock.md            # required metadata
 ```yaml
 role: "lead"
 label: ""                    # e.g. 老周
+cast_role: ""                # must match role-wardrobe.md
 sheet: "character-lead-sheet.png"   # optional
 portrait: "character-lead.png"      # primary lock image
-anchor_zh: ""                # paste verbatim every panel (Chinese ok for排版笔记)
-anchor_en: ""                # paste verbatim into every image prompt
-wardrobe: ""                 # fixed outfit
+anchor_zh: ""                # includes correct outfit wording
+anchor_en: ""                # includes correct outfit wording
+wardrobe: ""                 # fixed outfit — role-correct
 traits: []                   # age, hair, glasses, face shape — immutable
-forbid_changes: []           # e.g. no new hairstyle, no suit swap mid-story
-status: "draft|locked"       # generate panels only when locked (unless user overrides)
+forbid_changes: []           # e.g. no new hairstyle; no swapping into wrong role clothes
+status: "draft|locked"
 ```
 
 ## How to build the lock
 
-1. From style-card `characters.lead` (+ user notes), write `anchor_zh` / `anchor_en` — concrete, stable, no mood adjectives that change per shot.
-2. Generate `character-lead-sheet.png` (character sheet) then a clean `character-lead.png` portrait/half-body in the **same style as style-card**.
-3. Show the user; on approval set `status: locked`.
-4. Do not batch story panels until `status: locked` unless user says「不用锁脸 / 直接出图」.
+1. Decide `cast_role` from the script; set `wardrobe` via `role-wardrobe.md` (judge → black robe with red panel, etc.).
+2. From style-card + notes, write `anchor_zh` / `anchor_en` that **name the outfit**, stable across panels.
+3. Generate sheet + `character-lead.png` in style-card look **wearing that wardrobe**.
+4. User confirms → `status: locked`. Do not batch panels until locked unless user overrides.
 
 ## Reuse rules
 
