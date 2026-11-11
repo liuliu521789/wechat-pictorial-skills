@@ -6,14 +6,12 @@ Each shot may include:
 text_slots:
   - id: "01-n1"
     role: "narration"     # narration|dialogue|keyword|info
-    speaker: null         # character label if dialogue
-    content: ""           # exact Chinese (or user language) to place later
-    region: "bottom-band" # top-band|bottom-band|upper-third|lower-third|left-rail|right-rail|center-soft|speech-left|speech-right|callout-box
-    priority: 1           # 1 = must show
-    burn_in_text: false   # true only if user wants glyphs in the PNG
+    speaker: null
+    content: ""
+    region: "bottom-band" # layout hint for later typography — NOT a painted box in the PNG
+    priority: 1
+    burn_in_text: false
 ```
-
-Also maintain a flat list:
 
 ```yaml
 text_manifest:
@@ -23,16 +21,27 @@ text_manifest:
     content: ""
 ```
 
+## Critical: soft reserve, not a hard slab
+
+`region` tells **layout later where to place type**. It must **not** make the generator paint:
+
+- a torn-paper / deckle caption strip  
+- a floating parchment rectangle  
+- a hard horizontal crop band of blank beige  
+- a solid color block in any corner (especially bottom-right)
+
+Instead the illustration stays one continuous scene. “留白” = **soft atmospheric breathing room** inside the painting (pale sky, quiet wall wash, simplified floor fade) that still belongs to the same watercolor field.
+
 ## Placement heuristics
 
 | Copy type | Prefer region | Image must |
 |-----------|---------------|------------|
-| Short narration / diary line | `bottom-band` or `top-band` | keep that band low-detail paper/sky/wall |
-| Long narration | split across adjacent panels; never one crowded band | same |
-| Dialogue (two sides) | `speech-left` / `speech-right` upper chest height | leave open air near speakers’ heads; no painted bubbles |
-| Keyword / 金句 | `callout-box` mid-side or lower third quiet field | flat wash behind the box zone |
-| Bio / info block | `lower-third` or `bottom-band` | avoid faces in that third |
+| Short narration | `bottom-band` or `top-band` | slightly quieter sky/wall/floor in that zone — blended, not a bar |
+| Long narration | split across panels | same |
+| Dialogue | `speech-left` / `speech-right` | open air near heads; no painted bubbles |
+| Keyword | `callout-box` | softly quieter mid-side wash — no drawn card |
+| Bio / info | `lower-third` | avoid faces there; still continuous scene |
 
 ## Coverage check
 
-Before generate: every `source_lines` item that must appear publicly is either in a `text_slots.content` or explicitly marked `layout: omit` with reason.
+Every public `source_lines` item is in some `text_slots.content` or marked `layout: omit`.
