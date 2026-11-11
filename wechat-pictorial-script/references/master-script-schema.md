@@ -16,8 +16,11 @@ panels:                    # 7–12 items; drives later shots 1:1 when possible
       - speaker: ""
         line: ""
     keyword: null          # string or null
-    visual_intent: ""      # one concrete image sentence
-    inferred: false        # true if agent filled gaps
+    visual_intent: ""      # one concrete image sentence; name who appears
+    cast_hint:             # optional; helps wardrobe in longform
+      - label: ""
+        cast_role: ""      # judge|lawyer|party_citizen|people_assessor|...
+    inferred: false
 text_bank:
   # flat list for layout / search
   - panel: "01"
