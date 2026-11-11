@@ -1,85 +1,94 @@
 ---
 name: wechat-pictorial-character-sheet
-description: "Generate a WeChat pictorial lead-character turnaround sheet (主角三视图/定妆图): front, three-quarter, side, optional half-body portrait, plus character-lock.md with anchors. Enforces role-correct wardrobe (e.g. judge black robe). Trigger on 主角三视图, 角色定妆图, character sheet, turnaround, character-lead-sheet, 生成人物三视图, or when the user asks only for a locked protagonist reference before story panels."
+description: "Generate a WeChat pictorial lead-character turnaround sheet (主角三视图/定妆图) from a REQUIRED user-uploaded person photo: front, three-quarter, side, half-body portrait, plus character-lock.md. Enforces role-correct wardrobe. Trigger on 主角三视图, 角色定妆图, character sheet, turnaround, 上传人物照片生成三视图, character-lead-sheet. Do not invent a face without a person reference image."
 ---
 
 # wechat-pictorial-character-sheet
 
-Generate **only** the lead character turnaround assets for pictorial long-form. Do not write storyboards or story panels unless the user explicitly asks to continue into `wechat-pictorial-longform`.
+Generate **only** lead-character turnaround assets. Do not storyboard or make story panels unless the user asks to continue into `wechat-pictorial-longform`.
+
+## Hard requirement — person reference photo
+
+**The user must upload at least one clear photo of the person** (face visible; half-body preferred).
+
+If no person image is attached and no local path is given:
+
+1. **Stop.** Do not generate a sheet from imagination.  
+2. Ask once: `请上传一张主角人物照片（正面或半身清晰人脸）作为参考，再生成三视图。`  
+3. Resume only after the image is available.
+
+Treat uploaded pictorial art of the same person as valid reference if a photo is unavailable but the user explicitly says it is the lead — still require *some* person image.
+
+**Redraw rule:** Use the photo for identity (face, age, hair, glasses, body). Final sheet must be in pictorial watercolor style — **do not** paste, crop, or photoreal-trace the photo into the output.
 
 ## How to invoke
 
 ```text
 @wechat-pictorial-character-sheet/SKILL.md
-生成主角三视图：人民陪审员，中年戴眼镜，米色夹克；用默认水彩风格
+（附上人物照片）
+生成主角三视图：cast_role=people_assessor，穿着按身份；默认水彩风
 ```
 
 ```text
 @wechat-pictorial-character-sheet/SKILL.md
-cast_role: judge；正式开庭黑袍红襟；输出三视图+半身像并写入 character-lock.md
+（附上人物照片）
+cast_role=judge，正式开庭黑袍红襟；输出三视图+半身像并写 character-lock.md
 ```
 
-```text
-@wechat-pictorial-character-sheet/SKILL.md
-根据我上传的人脸/成片，提特征后生成同画风三视图
-```
+豆包：粘贴本 `SKILL.md` + **先上传人物图** + 任务句；出图时把该图设为角色/参考图。
 
-豆包：粘贴本 `SKILL.md` 全文 + 同上任务；用返回的英文 prompt 在画图页生成。
-
-## Inputs（缺则问一次）
+## Inputs
 
 | Field | Required | Notes |
 |-------|----------|-------|
-| `label` | preferred | 称呼，如 老周 |
-| `cast_role` | yes | see `references/role-wardrobe.md` |
-| `traits` | preferred | 年龄、发型、眼镜、体型 |
-| `wardrobe` override | no | if empty, use role-wardrobe default for `cast_role` |
-| style | no | user style refs, or `style-card.md`, or bundled default |
-| existing photo | no | extract traits only; redraw in pictorial style — do not paste photo into final sheet |
+| **person reference image** | **yes** | photo or clear likeness; hard gate |
+| `cast_role` | yes | `references/role-wardrobe.md` |
+| `label` | preferred | e.g. 老周 |
+| `traits` | optional | override/extra; otherwise extract from photo |
+| `wardrobe` | no | default from `cast_role` (may differ from clothes in the photo) |
+| style | no | style refs / `style-card.md` / bundled default |
+
+Wardrobe follows **role**, not necessarily the photo’s street clothes (e.g. photo in T-shirt + `cast_role=judge` → draw black robe, keep the face).
 
 ## Style source
 
-1. User-uploaded style refs → brief style notes for prompts  
-2. Else existing `style-card.md` in the workspace  
-3. Else copy look from sibling `../wechat-pictorial-longform/references/default-style.md` if present  
-4. Else use `references/default-style-snippet.md`
+1. User style refs → prompt notes  
+2. Else workspace `style-card.md`  
+3. Else sibling `../wechat-pictorial-longform/references/default-style.md`  
+4. Else `references/default-style-snippet.md`
 
 ## Pipeline
 
-1. Resolve `cast_role` + wardrobe via `references/role-wardrobe.md` (court roles must look like court attire).  
-2. Write `character-lock.md` per `references/sheet-schema.md` (`status: draft`).  
-3. Compile prompts (sheet + optional portrait).  
-4. Generate images with Cursor `GenerateImage` when available:
-   - `character-lead-sheet.png` — one image, three views side by side  
-   - `character-lead.png` — clean half-body or bust, same identity/outfit  
-   Aspect: sheet `16:9` or `3:2`; portrait `3:4` or `1:1`.  
-5. Show paths + anchors; on user confirm set `status: locked` in `character-lock.md`.  
-6. Optional handoff line: continue with `wechat-pictorial-longform` using these files as the character lock.
+1. **Confirm person image exists**; else stop and request upload.  
+2. Vision-read the photo → face/hair/glasses/age notes.  
+3. Resolve `cast_role` + wardrobe via `references/role-wardrobe.md`.  
+4. Write `character-lock.md` (`status: draft`) per `references/sheet-schema.md`; set `source_person_ref` to the filename.  
+5. Compile prompts; generate with Cursor `GenerateImage` when available:
+   - `reference_image_paths` **must include the person photo** (and style refs if any)  
+   - `character-lead-sheet.png` — front | 3/4 | side  
+   - `character-lead.png` — half-body / bust  
+   Sheet aspect `16:9` or `3:2`; portrait `3:4` or `1:1`  
+6. User confirms → `status: locked`.  
+7. Optional handoff to `wechat-pictorial-longform`.
 
 ## Sheet layout rules
 
-- Same person, same outfit, same glasses/hair in every view  
-- Views: **front | 3/4 | side** (left-to-right), full or three-quarter body  
-- Neutral cream paper / soft watercolor ground matching style  
-- No speech bubbles, no captions baked in (labels only if user asks; prefer none)  
-- Optional small prop consistent with role (e.g. folder stack for assessor) — one prop max  
+- Likeness to the **uploaded person**; same face across all views  
+- Outfit = role wardrobe (consistent on all views)  
+- Cream paper / soft watercolor; no bubbles; no baked captions  
+- One optional role prop max (e.g. folders)
 
 ## Prompt skeleton (English)
 
 ```text
 character turnaround sheet on textured cream paper, soft realistic watercolor,
 three views of the SAME person left to right: front, three-quarter, side,
-{anchor_en}, {role wardrobe clause},
-identical face and outfit across views, clean empty margins,
-WeChat pictorial character design sheet, no text, no watermark
+likeness to the reference person photo, {anchor_en}, {role wardrobe},
+identical face and outfit across views, illustrated not photographic,
+clean empty margins, no text, no watermark
 ```
 
-Portrait:
-
-```text
-half-body portrait, {anchor_en}, {wardrobe}, soft realistic watercolor on cream paper,
-same identity as turnaround sheet, quiet background, no text
-```
+Portrait: same likeness + wardrobe, half-body, quiet ground, no text.
 
 ## Deliverables
 
@@ -93,7 +102,6 @@ prompts/character-portrait.txt
 
 ## Quality bar
 
-- Three views clearly readable and identity-matched  
-- Wardrobe matches `cast_role`  
-- Anchors are copy-paste stable for later panel generation  
-- No story scene backgrounds cluttering the sheet  
+- No generation without a person reference image  
+- Face matches reference; wardrobe matches `cast_role`  
+- Anchors stable for later panels; sheet is design turnaround, not a story scene  
