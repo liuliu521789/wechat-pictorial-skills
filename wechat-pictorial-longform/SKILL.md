@@ -1,7 +1,6 @@
 ---
 name: wechat-pictorial-longform
-description: "Build WeChat pictorial long-form panels (竖屏绘本长图): extract style, lock a consistent lead character (定妆/锁脸), turn master script into shot lists with text-safe regions, and generate images. When no style reference is uploaded, use bundled default-style.md (corpus watercolor composition). Trigger on 公众号绘本长图, 提取页面风格, 默认样式, 固定主角形象, 角色定妆, 锁脸, 分镜构图, 文案留白落字, 按文案出图, character-lead, or master-script from wechat-pictorial-script. Thin ideas → wechat-pictorial-script first."
----
+description: "Build WeChat pictorial long-form panels (竖屏绘本长图): extract style, lock lead character, enforce role-correct wardrobe (e.g. Chinese judges in black robe with red panel, not casual suits), storyboard with text-safe regions, generate images. No style refs → bundled default-style.md. Trigger on 公众号绘本长图, 法院服饰, 角色服装, 法官袍, 定妆锁脸, 分镜出图, character-lead, or master-script from wechat-pictorial-script."---
 
 # wechat-pictorial-longform
 
@@ -91,12 +90,13 @@ If refs are partial, fill gaps from the bundled default rather than switching ae
 
 Read `references/character-lock.md`. Mode `character` or automatic before `full` / first `generate`.
 
-1. Write `character-lock.md` with immutable `traits`, `wardrobe`, `anchor_zh`, `anchor_en`.
-2. Generate character sheet then `character-lead.png` in the style-card look.
-3. Ask user to confirm appearance; set `status: locked`.
-4. On later panels: **never rewrite** anchors; always attach `character-lead.png` as a reference when the tool supports it.
+1. Assign lead `cast_role` from script (assessor / judge / mediator / etc.). Read `references/role-wardrobe.md` and set `wardrobe` to match that role.
+2. Write `character-lock.md` with immutable `traits`, `cast_role`, `wardrobe`, `anchor_zh`, `anchor_en` (anchors must mention the correct outfit).
+3. Generate character sheet then `character-lead.png` in the style-card look **wearing that wardrobe**.
+4. Ask user to confirm appearance; set `status: locked`.
+5. On later panels: **never rewrite** anchors; always attach `character-lead.png` when the tool allows.
 
-If user already provides a lead portrait: write lock file from it, skip sheet if they refuse, set `locked` after they confirm.
+If user already provides a lead portrait: write lock file from it (still label `cast_role`); set `locked` after confirm.
 
 ---
 
@@ -104,11 +104,12 @@ If user already provides a lead portrait: write lock file from it, skip sheet if
 
 Read `references/shot-schema.md`. Prefer **1 shot per** `master-script` `panels[]` id.  
 When `style-card.md` has `bundled_default: true`, bias framings to that file’s `compositions_common` / `shot_language_defaults`.  
-Fill `id`, `beat`, `shot_size`, `angle`, `action`, `setting`, `emotion`, `source_lines`.
+Fill `id`, `beat`, `shot_size`, `angle`, `action`, `setting`, `emotion`, `source_lines`, and **`cast`** (every visible person: `label`, `cast_role`, `wardrobe_note` per `references/role-wardrobe.md`).
 
 Shot sizes: `wide | full | medium | close | detail`  
 Angles: `eye-level | over-shoulder | two-shot | back-view | top-down | metaphor`  
-One action focus; ≤3 props.
+One action focus; ≤3 props.  
+Court staff clothing must match role (e.g. formal hearing → judge in black robe with red panel).
 
 ---
 
@@ -124,8 +125,9 @@ Prefer images without glyphs; reserve quiet `region`s.
 Compile via `references/prompt-compiler.md`:
 
 - Style-card look + **identical** `anchor_en` every panel  
+- **Role wardrobe clauses** for every `cast` member (from `role-wardrobe.md`)  
 - Text-safe zones from slots  
-- `refs.character: character-lead.png`  
+- `refs.character: character-lead.png` for the locked lead only  
 - Default aspect `9:16`
 
 Generation:
@@ -165,5 +167,6 @@ Chat: paths + `text_manifest` (+ character lock status). No tutorial prose.
 
 - Same `anchor_en` on every panel prompt  
 - Character ref attached whenever the generator allows  
+- Every on-screen person has role-correct wardrobe (judges ≠ business casual; police ≠ plainclothes without insignia)  
 - Slots match master script; safe regions avoid faces/hands  
 - Shared palette + locked lead across the set  
