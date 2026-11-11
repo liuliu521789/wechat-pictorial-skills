@@ -63,8 +63,11 @@ prompt_style_block_en: >
   desaturated backgrounds, professional humane atmosphere
 negative_prompt: >
   cartoon, anime, chibi, glossy 3d, photoreal stock photo, neon, purple glow,
-  harsh black inking, cluttered UI, watermark, readable text, letters, logos, speech bubbles,
-  oversaturated colors, cyberpunk, collage scrapbook
+  harsh black inking, cluttered UI, watermark, logo, AI生成, WORKBUDDY,
+  readable text, letters, speech bubbles, oversaturated colors, cyberpunk,
+  collage scrapbook, torn paper caption bar, deckle text strip,
+  floating parchment rectangle, hard blank beige band, solid corner color block,
+  bottom-right color patch, masked overlay, subtitle box
 ```
 
 ## Agent notes
