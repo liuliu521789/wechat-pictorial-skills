@@ -31,8 +31,11 @@ characters:
     scholarly calm face, beige/khaki zip jacket over light collared shirt,
     dark trousers, often holding a thick stack of manila folders
   supporting: >
-    same watercolor realism; judges/officials in navy suit + subtle red lapel pin;
-    citizens in casual jackets; corporate reps in dark suits — distinct wardrobe, shared rendering
+    same watercolor realism; wardrobe MUST follow role-wardrobe.md —
+    formal hearing judges in black robe with red front panel;
+    mediation judges may use dark court business attire + red lapel badge;
+    judicial police in proper uniform; lawyers in dark suits;
+    citizens in everyday clothes; corporate reps in navy suits
 compositions_common:
   - "establishing full/wide: figure walking up courthouse steps or leaving classical columns (back or three-quarter)"
   - "medium dialogue at wooden desk / conference table, eye-level"
