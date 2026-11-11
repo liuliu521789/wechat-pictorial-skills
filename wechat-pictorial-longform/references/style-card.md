@@ -3,27 +3,31 @@
 Write `style-card.md` exactly in this shape:
 
 ```yaml
-provisional: false   # true if no user references
-source_refs: []      # filenames or short labels
-medium: ""           # e.g. watercolor gouache on textured paper
+provisional: false
+bundled_default: false  # true when copied from references/default-style.md
+source_refs: []         # user filenames, or corpus label if bundled
+medium: ""
 palette:
   primary: []
   secondary: []
   avoid: []
 light: ""
-edges: ""            # soft / feathered / paper-bleed
-paper: ""            # cream / warm off-white / grain
+edges: ""
+paper: ""
 characters:
-  lead: ""           # concrete traits → seed for character-lock.md
+  lead: ""
   supporting: ""
-character_lock_file: "character-lock.md"   # filled after mode character
+character_lock_file: "character-lock.md"
 character_portrait: "character-lead.png"
-compositions_common: []  # recurring framings seen in refs
+compositions_common: []
+shot_language_defaults: {}    # optional; present on bundled default
+prompt_style_block_en: ""     # paste into every panel prompt
 typography_on_refs:
-  narration: ""      # how旁白 appears on refs
+  narration: ""
   dialogue: ""
 mood: []
 negative_prompt: ""
 ```
 
-Fill from vision of the references. Keep `characters.lead` concrete enough to build a character lock without inventing a new face later.
+From user refs: fill by vision.  
+No user refs: copy `references/default-style.md` wholesale.
