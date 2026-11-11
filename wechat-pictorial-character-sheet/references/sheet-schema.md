@@ -16,6 +16,8 @@ forbid_changes:
   - "same glasses and face across all panels"
 status: "draft"   # user confirms → locked
 source_skill: "wechat-pictorial-character-sheet"
+source_person_ref: ""   # required: user-uploaded person photo filename/path
 ```
 
-`anchor_en` must include face traits + full wardrobe phrase so `wechat-pictorial-longform` can paste it unchanged.
+Hard gate: do not write a lock or generate sheets if `source_person_ref` is empty.  
+`anchor_en` must include face traits from the photo + role wardrobe so `wechat-pictorial-longform` can paste it unchanged.
