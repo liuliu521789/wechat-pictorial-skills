@@ -1,0 +1,17 @@
+# 本地成片与课件（不入库）
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.pptx
+*.ppt
+generate_ppt.py
+_upload_skills.py
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.log
