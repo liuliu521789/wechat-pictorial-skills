@@ -138,7 +138,8 @@ Generation:
 2. One panel per call: `panel-01.png`, …
 3. Approve panel 01 likeness before continuing the batch when locking matters.
 4. Face drift → regen that panel; repeated drift → re-run `character` mode.
-5. Save `prompts/panel-XX.txt`.
+5. **Artifact QA (required):** reject/regen if the image shows a hard torn-paper or blank caption slab, a solid corner color block (esp. bottom-right), watermark/logo/`AI生成` badge, or a scene chopped by a straight empty band. Prefer soft atmospheric breathing room only.
+6. Save `prompts/panel-XX.txt`.
 
 Do not use zine-poster skills for this pipeline.
 
@@ -169,6 +170,8 @@ Chat: paths + `text_manifest` (+ character lock status). No tutorial prose.
 
 - Same `anchor_en` on every panel prompt  
 - Character ref attached whenever the generator allows  
-- Every on-screen person has role-correct wardrobe (judges ≠ business casual; police ≠ plainclothes without insignia)  
+- Every on-screen person has role-correct wardrobe  
+- Text “留白” is soft continuous atmosphere — never a painted caption bar or corner color block  
+- No watermarks / AI badges  
 - Slots match master script; safe regions avoid faces/hands  
 - Shared palette + locked lead across the set  
