@@ -39,15 +39,17 @@ Windows：复制到 `%USERPROFILE%\.cursor\skills\`。
 身份…… 想法…… 请输出 master-script，先不要出图
 ```
 
-### 主角三视图（独立 skill）
+### 主角三视图（独立 skill，须上传人物照片）
 
 ```text
 @wechat-pictorial-character-sheet/SKILL.md
-生成主角三视图：cast_role=people_assessor，中年戴眼镜，米色夹克，默认水彩风
+（附上人物照片）
+生成主角三视图：cast_role=people_assessor，默认水彩风
 ```
 
 ```text
 @wechat-pictorial-character-sheet/SKILL.md
+（附上人物照片）
 cast_role=judge，正式开庭黑袍红襟；输出三视图+半身像并锁定
 ```
 
