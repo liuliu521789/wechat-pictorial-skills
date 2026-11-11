@@ -1,6 +1,6 @@
 ---
 name: wechat-pictorial-longform
-description: "Build WeChat pictorial long-form panels (竖屏绘本长图): extract style, lock a consistent lead character (定妆/锁脸), turn master script into shot lists with text-safe regions, and generate images. Trigger on 公众号绘本长图, 提取页面风格, 固定主角形象, 角色定妆, 锁脸, 分镜构图, 文案留白落字, 按文案出图, character-lead, or when handed master-script.md from wechat-pictorial-script. If the user only has an idea or thin notes, run wechat-pictorial-script first."
+description: "Build WeChat pictorial long-form panels (竖屏绘本长图): extract style, lock a consistent lead character (定妆/锁脸), turn master script into shot lists with text-safe regions, and generate images. When no style reference is uploaded, use bundled default-style.md (corpus watercolor composition). Trigger on 公众号绘本长图, 提取页面风格, 默认样式, 固定主角形象, 角色定妆, 锁脸, 分镜构图, 文案留白落字, 按文案出图, character-lead, or master-script from wechat-pictorial-script. Thin ideas → wechat-pictorial-script first."
 ---
 
 # wechat-pictorial-longform
@@ -49,7 +49,7 @@ Default: cards/slots in **Chinese**; image prompts in **English** unless the gen
 Before **generate**:
 
 1. Master copy (`master-script.md` or equivalent complete copy).
-2. Style card (from refs or `references/default-style.md` with `provisional: true`).
+2. Style card — from user refs **or**, if none, the **bundled corpus default** in `references/default-style.md` (extracted from the project’s root pictorial panels).
 3. **Character lock** with `status: locked` (see below), unless user explicitly skips.
 
 ### Thin-copy rule
@@ -61,12 +61,12 @@ Never invent sensitive case facts; desensitize when needed.
 ## Pipeline
 
 ```text
-master-script + style refs
-  → Style Card
-  → Character lock (sheet + portrait + anchors)   # before batch panels
-  → Shot list
+master-script + (optional style refs)
+  → Style Card   # no refs → copy bundled default-style.md
+  → Character lock (sheet + portrait + anchors)
+  → Shot list    # bias to default compositions_common when using bundled style
   → Text slots
-  → Per-panel prompt (always includes anchor_en + character ref)
+  → Per-panel prompt (style block + anchor_en + character ref)
   → Image generation
 ```
 
@@ -79,8 +79,11 @@ Hard stops:
 
 ### 1. Style extraction
 
-Vision on 1–3 refs → `style-card.md` per `references/style-card.md`.  
-Include a concrete `characters.lead` string usable as the seed for character lock.
+**If the user uploads 1–3 reference pages:** read them with vision → write `style-card.md` per `references/style-card.md`. Include concrete `characters.lead`.
+
+**If the user uploads no style references:** do **not** invent a new look. Copy `references/default-style.md` into `style-card.md` (keep `bundled_default: true`). That file is the extracted look/composition grammar of the root-directory pictorial corpus (cream paper watercolor, muted beige–dusty blue, eye-level mediation/court framing, metaphor wides, detail cutaways, vertical paper bands). Tell the user in one line that the bundled default style is in use.
+
+If refs are partial, fill gaps from the bundled default rather than switching aesthetics.
 
 ---
 
@@ -100,6 +103,7 @@ If user already provides a lead portrait: write lock file from it, skip sheet if
 ### 3. Storyboard from master script
 
 Read `references/shot-schema.md`. Prefer **1 shot per** `master-script` `panels[]` id.  
+When `style-card.md` has `bundled_default: true`, bias framings to that file’s `compositions_common` / `shot_language_defaults`.  
 Fill `id`, `beat`, `shot_size`, `angle`, `action`, `setting`, `emotion`, `source_lines`.
 
 Shot sizes: `wide | full | medium | close | detail`  
