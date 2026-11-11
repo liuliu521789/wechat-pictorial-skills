@@ -9,9 +9,10 @@
 
 ```text
 想法 → script → master-script.md
-     → longform：style → character → storyboard → panels
+     → longform：style（无参考图则用 bundled default-style）→ character → storyboard → panels
 ```
 
+无成片参考时，longform 默认采用仓库内 `wechat-pictorial-longform/references/default-style.md`（根目录绘本配图提取的画风与构图）。
 仓库：https://github.com/liuliu521789/wechat-pictorial-skills
 
 ## 安装（Cursor）
