@@ -52,8 +52,10 @@ Also return a short chat summary: title, beat count, and whether the user should
    - `narration` — short scrollable lines (can use `/` line breaks)
    - `dialogue` — optional list of `{speaker, line}`
    - `keyword` — optional 金句 / callout
-   - `visual_intent` — one sentence of what should be seen (for the next skill; not an image prompt)
-4. Voice: first-person witness by default if persona fits; warm, concrete, mobile-scroll pacing.
+   - `visual_intent` — one sentence of what should be seen (for the next skill; not an image prompt), naming who is on screen
+  - `cast_hint` — optional list of `{ label, cast_role }` so longform can dress them (judge / lawyer / party_citizen / …)
+4. Voice: first-person witness by default if persona fits; warm, concrete, mobile-scroll pacing.  
+   When the story involves court staff, state roles clearly (审判长/法官/法警/书记员) so outfits can be correct later.
 5. Preserve user meaning; expand clarity and rhythm, do not change their stance.
 6. End with `usage`: how to call `wechat-pictorial-longform` with this file.
 
