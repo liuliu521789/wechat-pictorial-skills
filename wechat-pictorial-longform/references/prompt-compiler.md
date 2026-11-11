@@ -29,13 +29,14 @@ burn_in_strings: <only if true>
 
 ```text
 {shot_size} shot, {angle}, {action}, {setting},
-{style medium}, {palette keywords}, {light}, {paper},
+{prompt_style_block_en from style-card — or medium/palette/light/paper},
 {anchor_en}, same person as character reference, consistent facial identity,
-soft painterly edges, WeChat pictorial narrative panel,
+composition consistent with style-card compositions_common when applicable,
 keep {regions} as quiet empty negative space for later typography,
 no text, no letters, no watermark, no speech bubbles
 ```
 
+If `bundled_default: true`, always include the full `prompt_style_block_en` from the style card.
 Never paraphrase `anchor_en` between panels.
 Map regions to prompt phrases:
 
