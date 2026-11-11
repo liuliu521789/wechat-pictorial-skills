@@ -1,33 +1,24 @@
 # wechat-pictorial-longform
 
-从**总文案**提取风格 → 分镜构图 → 文字留白落字 → 生成竖屏绘本图。
+风格 → **主角定妆锁脸** → 分镜 / 留白落字 → 竖屏出图。
 
-若只有想法或几句草稿，先用兄弟 skill：[`../wechat-pictorial-script`](../wechat-pictorial-script)。
+上游文案：[`../wechat-pictorial-script`](../wechat-pictorial-script)
 
-## Install
-
-```bash
-cp -r wechat-pictorial-script ~/.cursor/skills/
-cp -r wechat-pictorial-longform ~/.cursor/skills/
-```
-
-## Pipeline
+## 调用
 
 ```text
-想法 / 少量文案
-  → wechat-pictorial-script  → master-script.md
-  → wechat-pictorial-longform → style / storyboard / panels
-```
-
-## Example prompts
-
-```text
-@wechat-pictorial-script/SKILL.md
-想法：……
-先出总文案
+@wechat-pictorial-longform/SKILL.md
+按 character 模式生成主角定妆并锁定
 ```
 
 ```text
 @wechat-pictorial-longform/SKILL.md
-按 master-script.md 分镜，标明每镜留白和落字，再生成 9:16 图
+全流程：风格 → 锁主角 → 分镜留白 → 生成；文案见 master-script.md
 ```
+
+```text
+@wechat-pictorial-longform/SKILL.md
+按 generate，每镜必须带 character-lead.png 与同一 anchor_en
+```
+
+详见仓库根目录 `README.md`。
